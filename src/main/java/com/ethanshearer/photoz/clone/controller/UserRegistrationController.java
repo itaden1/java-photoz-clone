@@ -1,7 +1,10 @@
 package com.ethanshearer.photoz.clone.controller;
 
+import com.ethanshearer.photoz.clone.dto.UserCredentialsDTO;
 import com.ethanshearer.photoz.clone.service.UserService;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,7 +16,7 @@ public class UserRegistrationController {
     }
 
     @PostMapping("/register")
-    public void registerUser(String email, String password) {
-        userService.registerUser(email, password);
+    public void registerUser(@RequestBody UserCredentialsDTO userCredentials) {
+        userService.registerUser(userCredentials.getEmail(), userCredentials.getPassword());
     }
 }

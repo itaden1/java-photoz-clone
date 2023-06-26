@@ -7,7 +7,6 @@ create table if not exists photoz (
 
 create table if not exists users (
     id IDENTITY PRIMARY KEY NOT NULL,
-    email_address varchar(255) NOT NULL,
+    email_address varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL
 );
-insert into users (email_address, password) values ('admin@test.com', 'password');

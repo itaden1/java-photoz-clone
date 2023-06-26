@@ -22,6 +22,11 @@ public class User implements UserDetails {
     @NotEmpty
     private String password;
 
+    public User(String username, String password) {
+        this.setPassword(password);
+        this.setEmail(username);
+    }
+
     public Integer getId() {
         return id;
     }

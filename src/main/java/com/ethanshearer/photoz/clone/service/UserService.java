@@ -7,6 +7,8 @@ import com.sun.security.auth.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,12 +21,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void registerUser(String email, String password) {
-//        UserDetails userDetails = User.builder()
-//                .password(password)
-//                .username(email)
-//                .build();
-//        User user = new User(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-//        userRepository.save(user);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(16);
+        String encodedPassword = passwordEncoder.encode(password);
+        User user = new User(email, encodedPassword);
+        userRepository.save(user);
     }
 
 
