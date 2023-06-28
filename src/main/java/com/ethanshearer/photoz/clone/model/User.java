@@ -2,6 +2,7 @@ package com.ethanshearer.photoz.clone.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +18,15 @@ public class User implements UserDetails {
     private Integer id;
 
     @NotEmpty
-    private String emailAddress;
+    @Column("EMAIL_ADDRESS")
+    private String email;
 
     @NotEmpty
     private String password;
 
-    public User(String username, String password) {
+    public User(String email, String password) {
         this.setPassword(password);
-        this.setEmail(username);
+        this.setEmail(email);
     }
 
     public Integer getId() {
@@ -35,12 +37,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
-        this.emailAddress = email;
+        this.email = email;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getEmailAddress();
+        return this.getEmail();
     }
 
     @Override
