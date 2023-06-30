@@ -23,27 +23,27 @@ public class PhotoController {
         return "Hello World";
     }
 
-    @GetMapping("/photoz")
+    @GetMapping("/api/photoz")
     public Iterable<Photo> get() {
 
         return photoService.getAllPhotos();
     }
 
-    @GetMapping("/photoz/{id}")
+    @GetMapping("/api/photoz/{id}")
     public Photo get(@PathVariable Integer id) {
          Photo photo = photoService.getPhoto(id);
          if (photo == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
          return photo;
     }
 
-    @PostMapping("/photoz")
+    @PostMapping("/api/photoz")
     public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
 
         Photo photo = photoService.addPhoto(file.getOriginalFilename(), file.getContentType(), file.getBytes());
         return photo;
     }
 
-    @DeleteMapping("/photoz/{id}")
+    @DeleteMapping("/api/photoz/{id}")
     public void delete(@PathVariable Integer id) {
         photoService.removePhoto(id);
     }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("PHOTOZ")
+@Table("PHOTOS")
 public class Photo {
 
     @Id

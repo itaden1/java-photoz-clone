@@ -1,6 +1,8 @@
 package com.ethanshearer.photoz.clone;
 
+import com.ethanshearer.photoz.clone.security.CustomTokenFilter;
 import com.ethanshearer.photoz.clone.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,16 +22,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private UserService userService;
+    @Autowired private UserService userService;
 
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired private CustomTokenFilter customTokenFilter;
+
 
     @Value("${spring.websecurity.debug:false}")
     boolean webSecurityDebug;
@@ -52,7 +54,11 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                 .anyRequest().authenticated()
             ).logout((logout) -> logout.permitAll()
-            ).csrf(csrf -> csrf.disable());
+            ).csrf(csrf -> csrf.disable()).cors(cors -> cors.disable());
+         http.addFilterBefore(
+                customTokenFilter,
+                UsernamePasswordAuthenticationFilter.class
+         );
 
             return http.build();
     }
