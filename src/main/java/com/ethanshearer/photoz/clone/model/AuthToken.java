@@ -2,6 +2,7 @@ package com.ethanshearer.photoz.clone.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
@@ -9,8 +10,14 @@ import java.util.UUID;
 
 @Table("AUTH_TOKENS")
 public class AuthToken {
+
     @Id private int id;
-    @NotEmpty private UUID token;
+    @NotEmpty private int userId;
+
+    @Column("TOKEN")
+    @NotEmpty
+    private UUID token;
+
     @NotEmpty private LocalDateTime createdDateTime;
 
     @NotEmpty private LocalDateTime tokenExpiry;
@@ -18,7 +25,7 @@ public class AuthToken {
     @NotEmpty private UUID refreshToken;
 
     public AuthToken(int userId) {
-        this.id = userId;
+        this.userId = userId;
         this.token = UUID.randomUUID();
         this.createdDateTime = LocalDateTime.now();
         this.tokenExpiry = LocalDateTime.now().plusHours(4);

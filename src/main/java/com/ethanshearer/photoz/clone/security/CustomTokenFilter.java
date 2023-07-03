@@ -16,8 +16,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CustomTokenFilter extends OncePerRequestFilter {
@@ -31,20 +33,25 @@ public class CustomTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // get token from request
+        UUID uuidToken;
         String requestToken = request.getHeader("Authorization");
+
         if (requestToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
+        String[] tokenParts = requestToken.split(" ");
+        uuidToken = UUID.fromString(tokenParts[1]);
 
-        AuthToken token = tokenRepository.getTokenByToken(requestToken);
+        AuthToken token = tokenRepository.findByToken(uuidToken);
         if (token == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        LocalDateTime time = LocalDateTime.now();
         // check if it is valid
-        if (token.getTokenExpiry().isAfter(LocalDateTime.now())) {
+        if (token.getTokenExpiry().isBefore(LocalDateTime.now())) {
             System.out.println("oops");
             filterChain.doFilter(request, response);
             return;
@@ -53,7 +60,7 @@ public class CustomTokenFilter extends OncePerRequestFilter {
         // get the user associated with the token and authenticate them
         UserDetails user = userRepository.findById(token.getId()).orElse(null);
         UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken
-                .authenticated(user, null, List.of((GrantedAuthority) user.getAuthorities()));
+                .authenticated(user, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);

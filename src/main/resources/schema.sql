@@ -13,6 +13,7 @@ create table if not exists users (
 drop table if exists auth_tokens;
 create table if not exists auth_tokens (
     id IDENTITY NOT NULL,
+    user_id int NOT NULL,
     token UUID NOT NULL UNIQUE,
     created_date_time timestamp,
     token_expiry timestamp,
