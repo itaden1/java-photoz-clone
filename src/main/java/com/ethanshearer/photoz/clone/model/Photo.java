@@ -8,14 +8,19 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("PHOTOS")
 public class Photo {
 
-    @Id
-    private Integer id;
+    @Id private Integer id;
+    @NotEmpty private String fileName;
 
-    @NotEmpty
-    private String fileName;
+    public int getUserId() {
+        return userId;
+    }
 
-    @JsonIgnore
-    private byte[] data;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @NotEmpty private int userId;
+    @JsonIgnore private byte[] data;
 
 
     private  String contentType;

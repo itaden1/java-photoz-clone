@@ -1,8 +1,12 @@
+drop table if exists photos;
 create table if not exists photos (
     id IDENTITY PRIMARY KEY NOT NULL,
+    user_id int NOT NULL,
     file_name varchar(255) NOT NULL,
     content_type varchar(255) NOT NULL,
-    data binary varying
+    data binary varying,
+
+    CONSTRAINT fk_photos_users FOREIGN KEY (id) REFERENCES users(id)
 );
 
 create table if not exists users (

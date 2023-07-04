@@ -1,22 +1,25 @@
 package com.ethanshearer.photoz.clone.service;
 
 import com.ethanshearer.photoz.clone.model.Photo;
+import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.PhotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 
 @Service
 public class PhotoService {
     private final PhotoRepository photoRepository;
+    @Autowired private UserService userService;
 
     public PhotoService(PhotoRepository photoRepository) {
         this.photoRepository = photoRepository;
     }
 
+
     public Iterable<Photo> getAllPhotos() {
-        return photoRepository.findAll();
+        User user = userService.getLoggedInUser();
+        return photoRepository.findAllByUserId(user.getId());
     }
 
     public Photo getPhoto(Integer id) {
