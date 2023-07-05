@@ -12,6 +12,11 @@ import java.util.UUID;
 public class AuthToken {
 
     @Id private int id;
+
+    public int getUserId() {
+        return userId;
+    }
+
     @NotEmpty private int userId;
 
     @Column("TOKEN")

@@ -23,11 +23,16 @@ public class PhotoService {
     }
 
     public Photo getPhoto(Integer id) {
-        return photoRepository.findById(id).orElse(null);
+        User user = userService.getLoggedInUser();
+        return photoRepository
+                .findByIdAndUserId(id, user.getId())
+                .orElse(null);
     }
 
     public Photo addPhoto(String fileName, String contentType, byte[] data) {
+        User user = userService.getLoggedInUser();
         Photo photo = new Photo();
+        photo.setUserId(user.getId());
         photo.setContentType(contentType);
         photo.setFileName(fileName);
         photo.setData(data);

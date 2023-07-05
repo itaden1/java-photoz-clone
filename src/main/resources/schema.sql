@@ -5,8 +5,7 @@ create table if not exists photos (
     file_name varchar(255) NOT NULL,
     content_type varchar(255) NOT NULL,
     data binary varying,
-
-    CONSTRAINT fk_photos_users FOREIGN KEY (id) REFERENCES users(id)
+    FOREIGN KEY(USER_ID) REFERENCES USERS(id)
 );
 
 create table if not exists users (
@@ -14,6 +13,7 @@ create table if not exists users (
     email_address varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL
 );
+
 drop table if exists auth_tokens;
 create table if not exists auth_tokens (
     id IDENTITY NOT NULL,
@@ -23,6 +23,5 @@ create table if not exists auth_tokens (
     token_expiry timestamp,
     refresh_token UUID NOT NULL,
     refresh_token_expiry timestamp,
-
-    CONSTRAINT fk_auth_tokens_users FOREIGN KEY (id) REFERENCES users(id)
+    FOREIGN KEY(USER_ID) REFERENCES USERS(id)
 )

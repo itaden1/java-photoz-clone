@@ -58,7 +58,7 @@ public class CustomTokenFilter extends OncePerRequestFilter {
         }
 
         // get the user associated with the token and authenticate them
-        UserDetails user = userRepository.findById(token.getId()).orElse(null);
+        UserDetails user = userRepository.findById(token.getUserId()).orElse(null);
         UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken
                 .authenticated(user, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
