@@ -1,5 +1,6 @@
 package com.ethanshearer.photoz.clone.controller;
 
+import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
 import com.ethanshearer.photoz.clone.model.Photo;
 import com.ethanshearer.photoz.clone.service.PhotoService;
 import org.springframework.http.HttpStatus;
@@ -29,11 +30,17 @@ public class PhotoController {
         return photoService.getAllPhotos();
     }
 
+    @GetMapping("/api/users/{userId}/photoz")
+    public Iterable<Photo> getUserPhotos(@PathVariable Integer userId) throws EntityNotFoundException {
+        return photoService.getPhotosByUser(userId);
+    }
+
     @GetMapping("/api/photoz/{id}")
-    public Photo get(@PathVariable Integer id) {
-         Photo photo = photoService.getPhoto(id);
-         if (photo == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-         return photo;
+    public Photo get(@PathVariable Integer id) throws EntityNotFoundException {
+        Photo photo = photoService.getPhoto(id);
+        if (photo == null) throw new EntityNotFoundException();
+
+        return photo;
     }
 
     @PostMapping("/api/photoz")

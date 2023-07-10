@@ -1,8 +1,8 @@
 package com.ethanshearer.photoz.clone.service;
 
+import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
 import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.UserRepository;
-import com.sun.security.auth.UserPrincipal;
 //import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -20,6 +22,12 @@ public class UserService implements UserDetailsService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public User getUserById(int userId) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) throw new EntityNotFoundException();
+        return user;
     }
 
     public void registerUser(String email, String password) {
