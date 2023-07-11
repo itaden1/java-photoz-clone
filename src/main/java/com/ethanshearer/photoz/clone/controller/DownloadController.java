@@ -1,5 +1,6 @@
 package com.ethanshearer.photoz.clone.controller;
 
+import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
 import com.ethanshearer.photoz.clone.model.Photo;
 import com.ethanshearer.photoz.clone.service.PhotoService;
 import org.springframework.http.*;
@@ -18,9 +19,8 @@ public class DownloadController {
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> download(@PathVariable Integer id) {
+    public ResponseEntity<byte[]> download(@PathVariable Integer id) throws EntityNotFoundException {
         Photo photo = photoService.getPhoto(id);
-        if (photo == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         byte[] data = photo.getData();
         HttpHeaders headers = new HttpHeaders();

@@ -3,10 +3,8 @@ package com.ethanshearer.photoz.clone.controller;
 import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
 import com.ethanshearer.photoz.clone.model.Photo;
 import com.ethanshearer.photoz.clone.service.PhotoService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -35,6 +33,11 @@ public class PhotoController {
         return photoService.getPhotosByUser(userId);
     }
 
+    @GetMapping("/api/users/{userId}/photoz/{photoId}")
+    public Photo getUserPhotos(@PathVariable Integer userId, @PathVariable Integer photoId) throws EntityNotFoundException {
+        return photoService.getPhotoByUserAndId(userId, photoId);
+    }
+
     @GetMapping("/api/photoz/{id}")
     public Photo get(@PathVariable Integer id) throws EntityNotFoundException {
         Photo photo = photoService.getPhoto(id);
@@ -45,13 +48,12 @@ public class PhotoController {
 
     @PostMapping("/api/photoz")
     public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
-
         Photo photo = photoService.addPhoto(file.getOriginalFilename(), file.getContentType(), file.getBytes());
         return photo;
     }
 
     @DeleteMapping("/api/photoz/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Integer id) throws EntityNotFoundException {
         photoService.removePhoto(id);
     }
 }

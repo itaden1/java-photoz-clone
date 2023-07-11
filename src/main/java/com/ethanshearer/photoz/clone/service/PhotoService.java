@@ -5,9 +5,7 @@ import com.ethanshearer.photoz.clone.model.Photo;
 import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -24,17 +22,17 @@ public class PhotoService {
         return photoRepository.findAllByUserId(user.getId());
     }
 
-
     public Iterable<Photo> getAllPhotos() {
         User user = userService.getLoggedInUser();
         return photoRepository.findAllByUserId(user.getId());
     }
 
-    public Photo getPhoto(Integer id){
+    public Photo getPhoto(Integer id) throws EntityNotFoundException {
         User user = userService.getLoggedInUser();
         Photo photo = photoRepository
                 .findByIdAndUserId(id, user.getId())
                 .orElse(null);
+        if ( photo == null ) throw new EntityNotFoundException();
         return photo;
     }
 
@@ -49,7 +47,15 @@ public class PhotoService {
         return photo;
     }
 
-    public void removePhoto(Integer id) {
-        photoRepository.deleteById(id);
+    public void removePhoto(Integer id) throws EntityNotFoundException {
+        User user = userService.getLoggedInUser();
+        Photo photo = getPhotoByUserAndId(user.getId(), id);
+        photoRepository.deleteById(photo.getId());
+    }
+
+    public Photo getPhotoByUserAndId(Integer userId, Integer photoId) throws EntityNotFoundException {
+        Photo photo = photoRepository.findByIdAndUserId(userId, photoId).orElse(null);
+        if (photo == null) throw new EntityNotFoundException();
+        return photo;
     }
 }
