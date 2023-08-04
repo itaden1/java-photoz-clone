@@ -13,8 +13,9 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
     @Autowired private UserService userService;
 
-    public PhotoService(PhotoRepository photoRepository) {
+    public PhotoService(PhotoRepository photoRepository, UserService userService) {
         this.photoRepository = photoRepository;
+        this.userService = userService;
     }
 
     public Iterable<Photo> getPhotosByUser(Integer userId) throws EntityNotFoundException {
