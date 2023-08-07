@@ -7,7 +7,6 @@ import com.ethanshearer.photoz.clone.repository.PhotoRepository;
 import com.ethanshearer.photoz.clone.repository.UserRepository;
 import com.ethanshearer.photoz.clone.service.PhotoService;
 import com.ethanshearer.photoz.clone.service.UserService;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -65,7 +64,7 @@ public class PhotoServiceUnitTest {
         // When calling getAllPhotos and UserService.getLoggedInUser returns a user
         when(userService.getLoggedInUser()).thenReturn(user);
         when(photoRepository.findAllByUserId(user.getId())).thenReturn(expectedPhotos);
-        Iterable<Photo> actualPhotos = photoService.getAllPhotos();
+        Iterable<Photo> actualPhotos = photoService.getPrinciplesPhotos();
 
         // Then the principles photos should be returned
         assertIterableEquals(expectedPhotos, actualPhotos);

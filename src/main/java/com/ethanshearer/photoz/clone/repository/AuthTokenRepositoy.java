@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
 public interface AuthTokenRepositoy extends CrudRepository<AuthToken, Integer> {
-    AuthToken findByToken(UUID token);
+    AuthToken findByToken(String token);
 }

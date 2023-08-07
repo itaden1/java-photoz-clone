@@ -5,7 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.UUID;
 
 @Table("AUTH_TOKENS")
@@ -21,23 +23,30 @@ public class AuthToken {
 
     @Column("TOKEN")
     @NotEmpty
-    private UUID token;
+    private String token;
 
     @NotEmpty private LocalDateTime createdDateTime;
 
     @NotEmpty private LocalDateTime tokenExpiry;
 
-    @NotEmpty private UUID refreshToken;
+    @NotEmpty private String refreshToken;
 
     public AuthToken(int userId) {
         this.userId = userId;
-        this.token = UUID.randomUUID();
+        this.token = generateToken();
         this.createdDateTime = LocalDateTime.now();
         this.tokenExpiry = LocalDateTime.now().plusHours(4);
-        this.refreshToken = UUID.randomUUID();
+        this.refreshToken = generateToken();
         this.refreshTokenExpiry = LocalDateTime.now().plusHours(48);
     }
 
+    private String generateToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
+    }
     public int getId() {
         return id;
     }
@@ -46,11 +55,11 @@ public class AuthToken {
         this.id = id;
     }
 
-    public UUID getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(UUID token) {
+    public void setToken(String token) {
         this.token = token;
     }
 
@@ -70,11 +79,11 @@ public class AuthToken {
         this.tokenExpiry = tokenExpiry;
     }
 
-    public UUID getRefreshToken() {
+    public String getRefreshToken() {
         return refreshToken;
     }
 
-    public void setRefreshToken(UUID refreshToken) {
+    public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 

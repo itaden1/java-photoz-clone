@@ -1,5 +1,9 @@
 package com.ethanshearer.photoz.clone.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -10,19 +14,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-
+import java.util.Set;
 
 @Table("USERS")
 public class User implements UserDetails {
-    @Id
-    private Integer id;
+    @Id private Integer id;
 
     @NotEmpty
     @Column("EMAIL_ADDRESS")
     private String email;
 
-    @NotEmpty
-    private String password;
+    @NotEmpty private String password;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Follow> followRequests;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Follow> follows;
 
     public User(String email, String password) {
         this.setPassword(password);

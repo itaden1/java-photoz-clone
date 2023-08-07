@@ -33,7 +33,7 @@ public class CustomTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // get token from request
-        UUID uuidToken;
+        String userToken;
         String requestToken = request.getHeader("Authorization");
 
         if (requestToken == null) {
@@ -41,9 +41,9 @@ public class CustomTokenFilter extends OncePerRequestFilter {
             return;
         }
         String[] tokenParts = requestToken.split(" ");
-        uuidToken = UUID.fromString(tokenParts[1]);
+        userToken = tokenParts[1];
 
-        AuthToken token = tokenRepository.findByToken(uuidToken);
+        AuthToken token = tokenRepository.findByToken(userToken);
         if (token == null) {
             filterChain.doFilter(request, response);
             return;

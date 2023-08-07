@@ -23,8 +23,14 @@ public class PhotoService {
         return photoRepository.findAllByUserId(user.getId());
     }
 
-    public Iterable<Photo> getAllPhotos() {
+    public Iterable<Photo> getPrinciplesPhotos() {
         User user = userService.getLoggedInUser();
+        return photoRepository.findAllByUserId(user.getId());
+    }
+
+    public Iterable<Photo> getPhotoFeed() {
+        User user = userService.getLoggedInUser();
+
         return photoRepository.findAllByUserId(user.getId());
     }
 

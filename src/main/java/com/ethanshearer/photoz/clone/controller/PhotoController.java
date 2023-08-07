@@ -25,7 +25,7 @@ public class PhotoController {
     @GetMapping("/api/photoz")
     public Iterable<Photo> get() {
 
-        return photoService.getAllPhotos();
+        return photoService.getPrinciplesPhotos();
     }
 
     @GetMapping("/api/users/{userId}/photoz")

@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class AuthTokenEntity {
-    private UUID token;
+    private String token;
     private LocalDateTime token_expiry;
-    private UUID refresh_token;
+    private String refresh_token;
 
     public AuthTokenEntity(AuthToken authToken) {
         this.token = authToken.getToken();
@@ -16,7 +16,7 @@ public class AuthTokenEntity {
         this.refresh_token = authToken.getRefreshToken();
     }
 
-    public UUID getToken() {
+    public String getToken() {
         return token;
     }
 
@@ -24,7 +24,7 @@ public class AuthTokenEntity {
         return token_expiry;
     }
 
-    public UUID getRefresh_token() {
+    public String getRefresh_token() {
         return refresh_token;
     }
 

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthTokenService {
     @Autowired
-    private AuthTokenRepositoy authTokenRespository;
+    private AuthTokenRepositoy authTokenRepository;
 
     public AuthToken generateAuthToken(User user) {
         AuthToken token = new AuthToken(user.getId());
-        authTokenRespository.save(token);
+        authTokenRepository.save(token);
         return token;
     }
 

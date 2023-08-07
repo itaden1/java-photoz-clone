@@ -2,6 +2,7 @@ package com.ethanshearer.photoz.clone.controller;
 
 import com.ethanshearer.photoz.clone.dto.UserCredentialsDTO;
 import com.ethanshearer.photoz.clone.entities.AuthTokenEntity;
+import com.ethanshearer.photoz.clone.exceptions.UserAlreadyExistsException;
 import com.ethanshearer.photoz.clone.model.AuthToken;
 import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.AuthTokenRepositoy;
@@ -24,7 +25,7 @@ public class UserAuthenticationController {
     @Autowired private AuthTokenService authTokenService;
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody UserCredentialsDTO userCredentials) {
+    public void registerUser(@RequestBody UserCredentialsDTO userCredentials) throws UserAlreadyExistsException {
         userService.registerUser(userCredentials.getEmail(), userCredentials.getPassword());
     }
 

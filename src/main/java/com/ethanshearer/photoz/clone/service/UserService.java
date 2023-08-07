@@ -1,6 +1,7 @@
 package com.ethanshearer.photoz.clone.service;
 
 import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
+import com.ethanshearer.photoz.clone.exceptions.UserAlreadyExistsException;
 import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.UserRepository;
 //import org.springframework.security.core.userdetails.User;
@@ -30,7 +31,13 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void registerUser(String email, String password) {
+    public void registerUser(String email, String password) throws UserAlreadyExistsException {
+
+        User existingUser = userRepository.findByEmail(email);
+        if ( existingUser != null ) {
+            throw new UserAlreadyExistsException();
+        }
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(16);
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(email, encodedPassword);
