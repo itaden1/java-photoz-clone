@@ -12,12 +12,12 @@ create table if not exists users (
 create table if not exists follow (
     id IDENTITY PRIMARY KEY NOT NULL,
     follower_id int NOT NULL,
-    followee_id int NOT NULL,
+    following_id int NOT NULL,
     created timestamp,
     accepted BOOLEAN,
     accepted_date_time timestamp,
     FOREIGN KEY(FOLLOWER_ID) REFERENCES USERS(id),
-    FOREIGN KEY (FOLLOWEE_ID) REFERENCES USERS(id)
+    FOREIGN KEY (FOLLOWING_ID) REFERENCES USERS(id)
 );
 
 create table if not exists photos (

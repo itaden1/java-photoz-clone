@@ -2,6 +2,7 @@ package com.ethanshearer.photoz.clone.service;
 
 import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
 import com.ethanshearer.photoz.clone.exceptions.UserAlreadyExistsException;
+import com.ethanshearer.photoz.clone.model.Follow;
 import com.ethanshearer.photoz.clone.model.User;
 import com.ethanshearer.photoz.clone.repository.UserRepository;
 //import org.springframework.security.core.userdetails.User;
@@ -55,5 +56,9 @@ public class UserService implements UserDetailsService {
         if (user == null) throw new UsernameNotFoundException("User not found");
 
         return user;
+    }
+
+    public Iterable<User> getUsers() {
+        return userRepository.findAll();
     }
 }

@@ -26,13 +26,13 @@ public class User implements UserDetails {
 
     @NotEmpty private String password;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Follow> followRequests;
+//    @OneToMany(fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Set<Follow> followRequests;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Follow> follows;
+//    @OneToMany(fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Set<Follow> follows;
 
     public User(String email, String password) {
         this.setPassword(password);
