@@ -2,6 +2,7 @@ package com.ethanshearer.photoz.clone.controller;
 
 import com.ethanshearer.photoz.clone.exceptions.APIError;
 import com.ethanshearer.photoz.clone.exceptions.EntityNotFoundException;
+import com.ethanshearer.photoz.clone.exceptions.PermissionDeniedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,13 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         APIError apiError = new APIError(HttpStatus.NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    protected ResponseEntity<Object> handlePermissionDenied(PermissionDeniedException ex) {
+        APIError apiError = new APIError(HttpStatus.UNAUTHORIZED);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

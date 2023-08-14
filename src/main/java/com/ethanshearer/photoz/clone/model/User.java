@@ -1,5 +1,7 @@
 package com.ethanshearer.photoz.clone.model;
 
+import com.ethanshearer.photoz.clone.controller.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
@@ -18,7 +20,9 @@ import java.util.Set;
 
 @Table("USERS")
 public class User implements UserDetails {
-    @Id private Integer id;
+    @JsonView(Views.Public.class)
+    @Id
+    private Integer id;
 
     @NotEmpty
     @Column("EMAIL_ADDRESS")

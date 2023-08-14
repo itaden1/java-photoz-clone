@@ -15,6 +15,7 @@ create table if not exists follow (
     following_id int NOT NULL,
     created timestamp,
     accepted BOOLEAN,
+    declined BOOLEAN,
     accepted_date_time timestamp,
     FOREIGN KEY(FOLLOWER_ID) REFERENCES USERS(id),
     FOREIGN KEY (FOLLOWING_ID) REFERENCES USERS(id)

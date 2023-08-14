@@ -13,15 +13,21 @@ import java.time.LocalDateTime;
 public class Follow {
     @Id private Integer id;
     @NotEmpty private boolean accepted;
+    public boolean isDeclined() {
+        return declined;
+    }
+
+    public void setDeclined(boolean declined) {
+        this.declined = declined;
+    }
+
+    @NotEmpty private boolean declined;
     private LocalDateTime created;
     private LocalDateTime acceptedDateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private User follower;
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private User following;
+    private int followerID;
+
+    private int followingID;
     public Integer getId() {
         return id;
     }
@@ -35,7 +41,9 @@ public class Follow {
     }
 
     public void setAccepted(boolean accepted) {
-        this.acceptedDateTime = LocalDateTime.now();
+        if (accepted == true) {
+            this.acceptedDateTime = LocalDateTime.now();
+        }
         this.accepted = accepted;
     }
 
@@ -55,20 +63,20 @@ public class Follow {
         this.acceptedDateTime = acceptedDatTime;
     }
 
-    public User getFollower() {
-        return follower;
+    public int getFollower() {
+        return followerID;
     }
 
-    public void setFollower(User follower) {
-        this.follower = follower;
+    public void setFollower(int followerID) {
+        this.followerID = followerID;
     }
 
-    public User getFollowing() {
-        return following;
+    public int getFollowing() {
+        return followingID;
     }
 
-    public void setFollowing(User following) {
-        this.following = following;
+    public void setFollowing(int followingID) {
+        this.followingID = followingID;
     }
 
 }

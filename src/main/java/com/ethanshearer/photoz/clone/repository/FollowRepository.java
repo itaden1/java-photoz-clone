@@ -4,4 +4,5 @@ import com.ethanshearer.photoz.clone.model.Follow;
 import org.springframework.data.repository.CrudRepository;
 
 public interface FollowRepository extends CrudRepository<Follow, Integer> {
+    Iterable<Follow> findAllByFollowerIDOrFollowingID(int followerID, int followingID);
 }
